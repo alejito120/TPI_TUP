@@ -1,0 +1,11 @@
+# Ignorar configuraciones de Visual Studio
+.vs/
+*.user
+*.suo
+
+# Ignorar binarios y compilados
+bin/
+obj/
+
+# Ignorar archivos de configuración locales
+appsettings.Development.json
