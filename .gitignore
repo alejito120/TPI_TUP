@@ -1,0 +1,20 @@
+# Configuraciones de Visual Studio
+.vs/
+*.user
+*.suo
+
+# Compilados y temporales
+bin/
+obj/
+Debug/
+Release/
+
+# Configuración local
+appsettings.Development.json
+
+# Logs y bases temporales
+*.log
+*.sqlite
+
+# Resultados de tests
+TestResults/
