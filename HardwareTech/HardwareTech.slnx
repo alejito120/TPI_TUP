@@ -1,3 +1,6 @@
 <Solution>
+  <Project Path="../Application/HardwareTech.Application.csproj" />
+  <Project Path="../Architecture/HardwareTech.Infraestructure.csproj" />
+  <Project Path="../Domain/HardwareTech.Domain.csproj" />
   <Project Path="HardwareTech.csproj" />
 </Solution>
