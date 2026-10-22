@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using HardwareTech.Domain.Entities;
+using HardwareTech.Domain.Common;
 
 namespace HardwareTech.Domain.Entities
 {
-    public class MovimientoCaja
+    public class MovimientoCaja : BaseEntity
     {
-        public int Id { get; set; }
-        public string Tipo { get; set; } = string.Empty; // Ingreso/Egreso
+        public TipoMovimiento Tipo { get; set; }
         public decimal Monto { get; set; }
         public DateTime Fecha { get; set; }
 
@@ -16,3 +16,4 @@ namespace HardwareTech.Domain.Entities
         public Reparacion Reparacion { get; set; } = null!;
     }
 }
+
