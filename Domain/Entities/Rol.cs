@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using HardwareTech.Domain.Entities;
+using HardwareTech.Domain.Common;
 
 namespace HardwareTech.Domain.Entities
 {
-    public class Rol
+    public class Rol : BaseEntity
     {
-        public int Id { get; set; }
-        public string Nombre { get; set; } = string.Empty;
-        public ICollection<User> Usuarios { get; set; } = new List<User>();
+        public string NombreRol { get; set; } = string.Empty;
+        public ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
     }
 }
 
