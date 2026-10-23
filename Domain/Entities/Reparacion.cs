@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using HardwareTech.Domain.Entities;
 using HardwareTech.Domain.Common;
+using HardwareTech.Domain.Enums;
 
 namespace HardwareTech.Domain.Entities
 {

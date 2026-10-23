@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HardwareTech.Domain.Enums
+namespace HardwareTech.Domain.Enums;
+
+public enum EstadoPresupuesto
 {
-    internal class Class1
-    {
-    }
+    Pendiente,
+    Aceptado,
+    Rechazado
 }

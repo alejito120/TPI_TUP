@@ -2,9 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HardwareTech.Domain.Enums
+namespace HardwareTech.Domain.Enums;
+
+public enum EstadoReparacion
 {
-    internal class Class1
-    {
-    }
+    Recibido,
+    Presupuestado,
+    EsperandoAceptacion,
+    EnProceso,
+    Finalizado,
+    Rechazado
 }
+

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HardwareTech.Domain.Enums
+namespace HardwareTech.Domain.Enums;
+
+public enum TipoMovimiento
 {
-    internal class Class1
-    {
-    }
+    Ingreso,
+    Egreso
 }
