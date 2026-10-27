@@ -1,10 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using HardwareTech.Infraestructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<HardwareTech.Infraestructure.Data.ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddRepositories();
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
