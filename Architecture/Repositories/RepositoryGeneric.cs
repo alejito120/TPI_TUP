@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using HardwareTech.Application.Interfaces;
 using HardwareTech.Domain.Common;
 using HardwareTech.Infraestructure.Data;
+using Microsoft.EntityFrameworkCore.SqlServer.ValueGeneration.Internal;
 
 namespace HardwareTech.Infraestructure.Repositories
 {
