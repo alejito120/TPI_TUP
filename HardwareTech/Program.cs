@@ -7,6 +7,8 @@ builder.Services.AddDbContext<HardwareTech.Infraestructure.Data.ApplicationDbCon
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddRepositories();
+
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -24,3 +26,4 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+
