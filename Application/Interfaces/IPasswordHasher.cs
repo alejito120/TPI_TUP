@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HardwareTech.Application.Interfaces
 {
-    internal interface IPasswordHasher
+    public interface IPasswordHasher
     {
         // generamos el hash de la contraseña que nos llega, para guardarla en la base de datos
         string HashPassword(string password);

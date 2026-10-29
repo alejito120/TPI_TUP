@@ -8,6 +8,6 @@ namespace HardwareTech.Application.DTOs.Responses
         int Id,
         string Name,
         string Email,
-        int RolUser
+        string RolUser
      );
 }

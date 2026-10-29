@@ -10,18 +10,12 @@ namespace HardwareTech.Application.Services
 {
 
     // establecemos el contrato que queremos usar, para definir que metodos queremos usar en este servicio (estoy redactando con pajora la verdad)
-    internal class UserServices : IUserService
+    public class UserServices(IUserRepository user, IPasswordHasher hasher) : IUserService //    VER QUE ONDA <-----------------------------(PUBLIC)----------------------------------------------------
     {
         // almacenamos la interfaz del repositorio de usuarios y la interfaz del hasher de contraseñas
         // hacemos referencia a un objeto
-        private readonly IUserRepository _user;
-        private readonly IPasswordHasher _hasher;
-
-        public UserServices(IUserRepository user, IPasswordHasher hasher)
-        {
-            _user = user;
-            _hasher = hasher;
-        }
+        private readonly IUserRepository _user = user;
+        private readonly IPasswordHasher _hasher = hasher;
 
         public async Task<UserResponse> RegisterAsync(UserRequest request)
         {
@@ -43,13 +37,13 @@ namespace HardwareTech.Application.Services
 
             //aca guardamos los datos en la base de datos y nos devuelve la informacion suficiente del usuario creado
             await _user.AddAsync(user);
-            await _user.SaveChangesAsync();
+            
 
             return new UserResponse(
                 user.Id,
                 user.Name,
                 user.Email,
-                (int)user.RolUser
+                user.RolUser.ToString()
             );
 
         }
