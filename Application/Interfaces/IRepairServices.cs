@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HardwareTech.Application.Services
+namespace HardwareTech.Application.Interface
 {
     public interface IRepairService
     {

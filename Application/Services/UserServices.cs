@@ -10,7 +10,7 @@ namespace HardwareTech.Application.Services
 {
 
     // establecemos el contrato que queremos usar, para definir que metodos queremos usar en este servicio (estoy redactando con pajora la verdad)
-    public class UserServices(IUserRepository user, IPasswordHasher hasher) : IUserService //    VER QUE ONDA <-----------------------------(PUBLIC)----------------------------------------------------
+    public class UserServices(IUserRepository user, IPasswordHasher hasher) : IUserService 
     {
         // almacenamos la interfaz del repositorio de usuarios y la interfaz del hasher de contraseñas
         // hacemos referencia a un objeto
