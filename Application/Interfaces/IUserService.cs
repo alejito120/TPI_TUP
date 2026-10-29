@@ -6,7 +6,7 @@ using System.Text;
 
 namespace HardwareTech.Application.Interfaces
 {
-    internal interface IUserService
+    public interface IUserService
     {
         // definimos el metodo principal que se debe usar 
         Task<UserResponse> RegisterAsync(UserRequest request);
