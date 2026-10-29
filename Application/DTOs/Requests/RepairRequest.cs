@@ -5,8 +5,8 @@ using System.Text;
 namespace HardwareTech.Application.DTOs.Requests
 {
     public record RepairRequest(
-        string ProblemDescription,
-        string Equipment,
-        string Technician
-        );
+    string ProblemDescription,
+    int EquipmentId,
+    int TechnicianId
+    );
 }
