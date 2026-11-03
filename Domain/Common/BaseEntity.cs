@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace HardwareTech.Domain.Common;
 
-namespace HardwareTech.Domain.Common
+public abstract class BaseEntity
 {
-    internal class Class1
-    {
-    }
+    public int Id { get; set; }
 }

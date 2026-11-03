@@ -6,4 +6,60 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="obj\Release\**" />
+    <EmbeddedResource Remove="obj\Release\**" />
+    <None Remove="obj\Release\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="obj\Debug\net10.0\.NETCoreApp,Version=v10.0.AssemblyAttributes.cs" />
+    <Compile Include="obj\Debug\net10.0\HardwareTech.Infraestructure.AssemblyInfo.cs" />
+    <Compile Include="obj\Debug\net10.0\HardwareTech.Infraestructure.GlobalUsings.g.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="bin\Debug\net10.0\HardwareTech.Infraestructure.deps.json" />
+    <Content Include="obj\Debug\net10.0\HardwareTech.Infraestructure.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\net10.0\HardwareTech.Infraestructure.sourcelink.json" />
+    <Content Include="obj\HardwareTech.Infraestructure.csproj.nuget.dgspec.json" />
+    <Content Include="obj\project.assets.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net10.0\HardwareTech.Infraestructure.dll" />
+    <None Include="bin\Debug\net10.0\HardwareTech.Infraestructure.pdb" />
+    <None Include="obj\Debug\net10.0\Hardware.68BCC9D4.Up2Date" />
+    <None Include="obj\Debug\net10.0\HardwareTech.Infraestructure.AssemblyInfoInputs.cache" />
+    <None Include="obj\Debug\net10.0\HardwareTech.Infraestructure.assets.cache" />
+    <None Include="obj\Debug\net10.0\HardwareTech.Infraestructure.csproj.AssemblyReference.cache" />
+    <None Include="obj\Debug\net10.0\HardwareTech.Infraestructure.csproj.CoreCompileInputs.cache" />
+    <None Include="obj\Debug\net10.0\HardwareTech.Infraestructure.dll" />
+    <None Include="obj\Debug\net10.0\HardwareTech.Infraestructure.GeneratedMSBuildEditorConfig.editorconfig" />
+    <None Include="obj\Debug\net10.0\HardwareTech.Infraestructure.pdb" />
+    <None Include="obj\Debug\net10.0\refint\HardwareTech.Infraestructure.dll" />
+    <None Include="obj\Debug\net10.0\ref\HardwareTech.Infraestructure.dll" />
+    <None Include="obj\HardwareTech.Infraestructure.csproj.nuget.g.props" />
+    <None Include="obj\HardwareTech.Infraestructure.csproj.nuget.g.targets" />
+    <None Include="obj\project.nuget.cache" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="9.0.21" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="bin\Release\net10.0\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Application\HardwareTech.Application.csproj" />
+    <ProjectReference Include="..\Domain\HardwareTech.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
