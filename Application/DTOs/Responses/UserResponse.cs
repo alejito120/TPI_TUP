@@ -5,9 +5,10 @@ using System.Text;
 namespace HardwareTech.Application.DTOs.Responses
 {
     public record UserResponse(
-        int Id,
-        string Name,
-        string Email,
-        string RolUser
+    int Id,
+    string Name,
+    string LastName,
+    string Email,
+    string PhoneNumber
      );
 }
