@@ -15,10 +15,10 @@ namespace HardwareTech.Infraestructure.Repositories
     internal class RepositoryGeneric<T> : IRepositoryGeneric<T> where T : BaseEntity
     {
         // El contexto es nuestra puerta de acceso a la base de datos.
-        private readonly ApplicationDbContext _context;
+        protected readonly ApplicationDbContext _context;
 
         // DbSet<T> representa la tabla de la entidad T (si T es EquipmentHardware, la tabla de equipos).
-        private readonly DbSet<T> _dbSet;
+       protected readonly DbSet<T> _dbSet;
 
         public RepositoryGeneric(ApplicationDbContext context)
         {

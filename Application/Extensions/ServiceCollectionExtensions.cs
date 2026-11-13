@@ -1,4 +1,5 @@
-﻿using HardwareTech.Application.Services;
+﻿using HardwareTech.Application.Interfaces;
+using HardwareTech.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HardwareTech.Application.Extensions
@@ -9,6 +10,7 @@ namespace HardwareTech.Application.Extensions
             this IServiceCollection services)
         {
             services.AddScoped<IRepairService, RepairService>();
+            // services.AddScoped<IUserService, UserServices>(); falta  la IPaswordHasher, va a tirar error porque lo busca pero no lo encuentra.
 
             return services;
         }

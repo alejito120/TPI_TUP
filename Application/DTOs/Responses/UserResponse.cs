@@ -11,4 +11,5 @@ namespace HardwareTech.Application.DTOs.Responses
     string Email,
     string PhoneNumber
      );
+ 
 }

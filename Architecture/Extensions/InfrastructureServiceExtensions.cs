@@ -14,7 +14,8 @@ namespace HardwareTech.Infraestructure.Extensions
             // cuando un servicio pida IRepositoryGeneric<EquipmentHardware>, el contenedor crea RepositoryGeneric<EquipmentHardware>.
             // Scoped = una instancia por request HTTP, igual que el DbContext.
             services.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
-            
+            services.AddScoped<IUserRepository, UserRepository>();
+
 
             return services;
         }
