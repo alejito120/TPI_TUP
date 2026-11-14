@@ -21,15 +21,24 @@ namespace HardwareTech.Application.Services
 
         public async Task<UserResponse> RegisterAsync(UserRequest request)
         {
+            if (string.IsNullOrWhiteSpace(request.Name) ||
+                string.IsNullOrWhiteSpace(request.LastName) ||
+                string.IsNullOrWhiteSpace(request.PhoneNumber) ||
+                string.IsNullOrWhiteSpace(request.Email) ||
+                string.IsNullOrWhiteSpace(request.Password))
+            {
+                throw new ValidationException("Todos los campos (Nombre, Apellido, Teléfono, Email y Contraseña) son obligatorios.");
+            }
 
-            // aca normalizamos el corre que entra
+            if (request.Password.Trim().Length < 6)
+                throw new ValidationException("La contraseña debe tener al menos 6 caracteres.");
+
+
             var email = request.Email.Trim().ToLowerInvariant();
 
-            // validamos que el Email no exista en la base de datos
             if (await _user.ExistByEmailAsync(email))
                 throw new EmailAlreadyExistsException(email);
 
-            // aca creamos el usuario y lo guardamos en la base de datos
             var user = new Domain.Entities.User
             {
                 Name = request.Name.Trim(),
@@ -39,12 +48,9 @@ namespace HardwareTech.Application.Services
                 PasswordHash = _hasher.HashPassword(request.Password)
             };
 
-            //aca guardamos los datos en la base de datos y nos devuelve la informacion suficiente del usuario creado
             await _user.AddAsync(user);
-            
 
             return MapToResponse(user);
-
         }
 
         public async Task<IEnumerable<UserResponse>> GetAllAsync()
@@ -69,9 +75,15 @@ namespace HardwareTech.Application.Services
 
         public async Task<UserResponse> AssignRolAsync(int userId, Rol newRol)
         {
+
+            if (!Enum.IsDefined(typeof(Rol), newRol))
+                throw new ValidationException("El rol especificado no es válido.");
+
             var user = await _user.GetByIdAsync(userId);
             if (user == null)
                 throw new NotFoundException($"No se encontró el usuario con ID {userId}.");
+
+
             user.RolUser = newRol;
             await _user.UpdateAsync(user);
             return MapToResponse(user);
@@ -92,6 +104,10 @@ namespace HardwareTech.Application.Services
             var userToDelete = await _user.GetByIdAsync(userIdToDelete);
             if (userToDelete == null)
                 throw new NotFoundException($"No se encontro el usuario con ID {userIdToDelete}.");
+
+            // Validamos que el delet no se haga sobre el mismo admin
+            if (userIdToDelete == adminId)
+                throw new BusinessException("Un administrador no puede eliminarse a sí mismo.");
 
             await _user.DeleteAsync(userToDelete);
         }

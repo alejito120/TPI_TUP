@@ -136,6 +136,9 @@ namespace HardwareTech.Application.Services
             if (repair.State == RepairStatus.Completed || repair.State == RepairStatus.Rejected)
                 throw new BusinessException("La reparación ya se encuentra cerrada y no puede cambiar de estado.");
 
+            if (repair.State == state)
+                throw new BusinessException($"La reparación ya se encuentra en el estado {state}.");
+
             var previousState = repair.State;
             repair.State = state;
 
@@ -161,7 +164,7 @@ namespace HardwareTech.Application.Services
             if (repair == null)
                 throw new NotFoundException($"No se encontró la reparación con ID {repairId}.");
 
-            if (repair.State == RepairStatus.Completed)
+            if (repair.State == RepairStatus.Completed || repair.State == RepairStatus.Rejected)
                 throw new BusinessException("La reparación ya fue finalizada anteriormente.");
 
             var previousState = repair.State;
