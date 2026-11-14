@@ -107,7 +107,8 @@ namespace HardwareTech.Application.Services
                 user.Name,
                 user.LastName,
                 user.Email,
-                user.PhoneNumber
+                user.PhoneNumber,
+                user.RolUser.ToString()
             );
         }
 
