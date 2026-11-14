@@ -1,4 +1,5 @@
 ﻿using HardwareTech.Domain.Entities;
+using HardwareTech.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,5 +12,6 @@ namespace HardwareTech.Application.Interfaces
         // para mi estos son los esenciales, abierto a que me lo cuestionen obvio
         Task<bool> ExistByEmailAsync(string email);
         Task<User?> GetByEmailAsync(string email);
+        Task<IEnumerable<User>> GetByRolAsync(Rol rol);
     }
 }

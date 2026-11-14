@@ -8,5 +8,6 @@ namespace HardwareTech.Domain.Enums;
 public enum Rol
 {
     Client,
-    Technical
+    Technical,
+    Admin
 }

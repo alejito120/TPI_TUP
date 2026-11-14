@@ -6,6 +6,8 @@ namespace HardwareTech.Application.DTOs.Requests
 {
     public record UserRequest(
         string Name,
+        string LastName,
+        string PhoneNumber,
         string Email,
         string Password
         );
