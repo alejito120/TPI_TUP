@@ -1,6 +1,7 @@
 ﻿using HardwareTech.Application.Interfaces;
 using HardwareTech.Infraestructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
+using HardwareTech.Infraestructure.Security;
 
 namespace HardwareTech.Infraestructure.Extensions
 {
@@ -15,6 +16,7 @@ namespace HardwareTech.Infraestructure.Extensions
             // Scoped = una instancia por request HTTP, igual que el DbContext.
             services.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 
             return services;
