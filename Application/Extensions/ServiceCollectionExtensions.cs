@@ -10,7 +10,7 @@ namespace HardwareTech.Application.Extensions
             this IServiceCollection services)
         {
             services.AddScoped<IRepairService, RepairService>();
-            // services.AddScoped<IUserService, UserServices>(); falta  la IPaswordHasher, va a tirar error porque lo busca pero no lo encuentra.
+            services.AddScoped<IUserService, UserServices>();
 
             return services;
         }
