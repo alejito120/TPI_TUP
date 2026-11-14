@@ -9,7 +9,8 @@ namespace HardwareTech.Application.DTOs.Responses
     string Name,
     string LastName,
     string Email,
-    string PhoneNumber
+    string PhoneNumber,
+    string Rol
      );
  
 }
