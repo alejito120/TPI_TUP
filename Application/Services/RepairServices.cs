@@ -190,6 +190,8 @@ namespace HardwareTech.Application.Services
             await _repairRepository.DeleteAsync(repair);
         }
 
+
+        // !!! IMPORTANTE SABER ESTO !!!
         // Métodos auxiliares para armar el RepairResponse con el nombre del Equipo y del Técnico
         // Convierte una lista de reparaciones (Repair) en una lista de respuestas (RepairResponse).
         // En vez de consultar la base de datos adentro de un bucle por cada reparación,
