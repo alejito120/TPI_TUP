@@ -73,6 +73,10 @@ namespace HardwareTech.Application.Services
             if (!await _userRepo.ExistsAsync(u => u.Id == request.UserId))
                 throw new NotFoundException($"No se encontró el cliente con ID {request.UserId}.");
 
+            var serial = request.SerialNumber.Trim();
+            if (await _equipmentRepo.ExistsAsync(e => e.SerialNumber == serial && e.Id != id))
+                throw new BusinessException($"Ya existe otro equipo con el número de serie {serial}.");
+
             equipment.Type = request.Type.Trim();
             equipment.Brand = request.Brand.Trim();
             equipment.Model = request.Model.Trim();
