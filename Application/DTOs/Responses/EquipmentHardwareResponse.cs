@@ -4,12 +4,12 @@ using System.Text;
 
 namespace HardwareTech.Application.DTOs.Responses
 {
-    public record EquipmentHardwareRespose(
+    public record EquipmentHardwareResponse(
         int Id,
         string Type,
         string Brand,
         string Model,
         String SerialNumber,
-        int UserId
+        int ClientId
         );
 }
