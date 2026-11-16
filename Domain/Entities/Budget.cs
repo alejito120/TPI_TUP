@@ -10,7 +10,7 @@ namespace HardwareTech.Domain.Entities
     {
         public decimal Amount { get; set; }
         public DateTime Date { get; set; }
-        public RepairStatus State { get; set; } = RepairStatus.Received;
+        public BudgetStatus State { get; set; } = BudgetStatus.Pending;
 
         public int RepairId { get; set; }
         public Repair Repair { get; set; } = null!;
