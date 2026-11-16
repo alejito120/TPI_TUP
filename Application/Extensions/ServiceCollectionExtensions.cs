@@ -15,6 +15,7 @@ namespace HardwareTech.Application.Extensions
             services.AddScoped<IRepairStatusHistoryService, RepairStatusHistoryService>();
             services.AddScoped<IBudgetService, BudgetService>();
             services.AddScoped<ICashMovementService, CashMovementService>();
+            services.AddScoped<IAuthService, AuthService>();
 
             return services;
         }
