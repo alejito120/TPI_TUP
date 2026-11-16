@@ -8,12 +8,12 @@ namespace HardwareTech.Application.Services
     public class RepairStatusHistoryService : IRepairStatusHistoryService
     {
         private readonly IRepositoryGeneric<RepairStatusHistory> _historyRepository;
-        // .
+
         private readonly IRepositoryGeneric<Repair> _repairRepository;
 
         public RepairStatusHistoryService(
             IRepositoryGeneric<RepairStatusHistory> historyRepository,
-            // .
+    
             IRepositoryGeneric<Repair> repairRepository)
         {
             _historyRepository = historyRepository;
@@ -37,7 +37,6 @@ namespace HardwareTech.Application.Services
         {
             var histories = await _historyRepository.GetAllAsync();
 
-            // .
             return histories
                 .OrderBy(h => h.ChangeDate)
                 .ThenBy(h => h.Id)
@@ -46,7 +45,7 @@ namespace HardwareTech.Application.Services
 
         public async Task<IEnumerable<RepairStatusHistoryResponse>> GetByRepairIdAsync(int repairId)
         {
-            // .
+         
             if (!await _repairRepository.ExistsAsync(r => r.Id == repairId))
                 throw new NotFoundException(
                     $"No se encontró la reparación con ID {repairId}.");
@@ -54,14 +53,12 @@ namespace HardwareTech.Application.Services
             var histories = await _historyRepository.FindAsync(
                 h => h.RepairId == repairId);
 
-            // .
             return histories
                 .OrderBy(h => h.ChangeDate)
                 .ThenBy(h => h.Id)
                 .Select(MapToResponse);
         }
 
-        // .
         private static RepairStatusHistoryResponse MapToResponse(RepairStatusHistory history)
         {
             return new RepairStatusHistoryResponse(
