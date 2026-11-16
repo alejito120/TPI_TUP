@@ -28,6 +28,9 @@ namespace HardwareTech.Application.Services
 
         public async Task<RepairResponse> CreateAsync(RepairRequest request)
         {
+            if (string.IsNullOrWhiteSpace(request.ProblemDescription))
+                throw new ValidationException("La descripción del problema es obligatoria.");
+
             //  Validamos que exista el equipo
             var equipment = await _equipmentRepository.GetByIdAsync(request.EquipmentId);
             if (equipment == null)

@@ -69,6 +69,9 @@ namespace HardwareTech.Application.Services
 
         public async Task<IEnumerable<UserResponse>> GetByRolAsync(Rol rol)
         {
+            if (!Enum.IsDefined(typeof(Rol), rol))
+                throw new ValidationException("El rol especificado no es válido.");
+
             var users = await _user.FindAsync(u => u.RolUser == rol);
             return users.Select(MapToResponse);
         }

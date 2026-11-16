@@ -1,12 +1,13 @@
-﻿using System;
+﻿using HardwareTech.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace HardwareTech.Application.DTOs.Requests
 {
     public record CashMovementRequest(
-        string Type,
+        MovementType Type,
         decimal Amount,
-        DateTime Date
+        int RepairId  
         );
 }
