@@ -32,8 +32,12 @@ namespace HardwareTech.Application.Services
             if (repair == null)
                 throw new NotFoundException($"No se encontró la reparación con ID {request.RepairId}.");
 
-            if (repair.State == RepairStatus.Completed || repair.State == RepairStatus.Rejected)
-                throw new BusinessException("No se puede presupuestar una reparación finalizada o rechazada.");
+            if (repair.State == RepairStatus.InProgress ||
+                repair.State == RepairStatus.Completed ||
+                repair.State == RepairStatus.Rejected)
+            {
+                throw new BusinessException("Solo se puede emitir un presupuesto para una reparación en estado Recibida o Presupuestada.");
+            }
 
             if (await _budgetRepository.ExistsAsync(b => b.RepairId == request.RepairId))
                 throw new BusinessException($"La reparación con ID {request.RepairId} ya tiene un presupuesto asignado.");

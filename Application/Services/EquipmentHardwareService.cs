@@ -15,6 +15,8 @@ namespace HardwareTech.Application.Services
 
         public async Task<EquipmentHardwareResponse> CreateAsync(EquipmentHardwareRequest request)
         {
+            ValidateRequiredFields(request);
+
             if (!await _userRepo.ExistsAsync(u => u.Id == request.UserId))
                 throw new NotFoundException($"No se encontró el cliente con ID {request.UserId}.");
 
@@ -62,6 +64,8 @@ namespace HardwareTech.Application.Services
 
         public async Task<EquipmentHardwareResponse> UpdateAsync(int id, EquipmentHardwareRequest request)
         {
+            ValidateRequiredFields(request);
+
             var equipment = await _equipmentRepo.GetByIdAsync(id);
             if (equipment == null)
                 throw new NotFoundException($"No se encontró el equipo con ID {id}.");
@@ -76,7 +80,7 @@ namespace HardwareTech.Application.Services
             equipment.Type = request.Type.Trim();
             equipment.Brand = request.Brand.Trim();
             equipment.Model = request.Model.Trim();
-            equipment.SerialNumber = request.SerialNumber.Trim();
+            equipment.SerialNumber = serial;
             equipment.ClientId = request.UserId;
 
             await _equipmentRepo.UpdateAsync(equipment);
@@ -91,6 +95,17 @@ namespace HardwareTech.Application.Services
                 throw new NotFoundException($"No se encontró el equipo con ID {id}.");
 
             await _equipmentRepo.DeleteAsync(equipment);
+        }
+
+        private static void ValidateRequiredFields(EquipmentHardwareRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.Type) ||
+                string.IsNullOrWhiteSpace(request.Brand) ||
+                string.IsNullOrWhiteSpace(request.Model) ||
+                string.IsNullOrWhiteSpace(request.SerialNumber))
+            {
+                throw new ValidationException("Todos los campos (Tipo, Marca, Modelo y Número de Serie) son obligatorios.");
+            }
         }
 
         private static EquipmentHardwareResponse MapToResponse(EquipmentHardware equipment)
