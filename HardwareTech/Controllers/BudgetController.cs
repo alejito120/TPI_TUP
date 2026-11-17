@@ -44,6 +44,14 @@ namespace HardwareTech.Controllers
             return Ok(budget);
         }
 
+        [HttpGet("repair/{repairId:int}/usd")]
+        public async Task<ActionResult<BudgetUsdResponse>> GetBudgetInUsd(int repairId)
+        {
+            var budget = await _budgetService.GetBudgetInUsdAsync(repairId);
+
+            return Ok(budget);
+        }
+
         [HttpPatch("{id:int}/accept")]
         public async Task<ActionResult<BudgetResponse>> Accept(int id)
         {
