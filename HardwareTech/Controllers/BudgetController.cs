@@ -1,12 +1,14 @@
 ﻿using HardwareTech.Application.DTOs.Requests;
 using HardwareTech.Application.DTOs.Responses;
 using HardwareTech.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HardwareTech.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin,Technical")]
     public class BudgetController : ControllerBase
     {
         private readonly IBudgetService _budgetService;
@@ -48,7 +50,6 @@ namespace HardwareTech.Controllers
         public async Task<ActionResult<BudgetUsdResponse>> GetBudgetInUsd(int repairId)
         {
             var budget = await _budgetService.GetBudgetInUsdAsync(repairId);
-
             return Ok(budget);
         }
 
@@ -66,6 +67,7 @@ namespace HardwareTech.Controllers
             return Ok(budget);
         }
 
+        [Authorize(Roles = "Admin")] // 🔒 Solo Admin puede eliminar presupuestos
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

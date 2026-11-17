@@ -2,12 +2,14 @@
 using HardwareTech.Application.DTOs.Responses;
 using HardwareTech.Application.Interfaces;
 using HardwareTech.Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HardwareTech.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin,Technical")]
     public class CashMovementController : ControllerBase
     {
         private readonly ICashMovementService _movementService;
@@ -52,6 +54,7 @@ namespace HardwareTech.Controllers
             return Ok(movements);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
