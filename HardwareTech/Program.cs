@@ -1,10 +1,13 @@
-using System.Text;
 using HardwareTech.API.Middlewares;
 using HardwareTech.Application.Extensions;
+using HardwareTech.Application.Interfaces;
 using HardwareTech.Infraestructure.Extensions;
+using HardwareTech.Infraestructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,7 @@ builder.Services.AddDbContext<HardwareTech.Infraestructure.Data.ApplicationDbCon
 
 builder.Services.AddRepositories();
 builder.Services.AddApplicationServices();
+builder.Services.AddHttpClient<IDolarApiService, DolarApiService>();
 
 // 2. Configuración de Autenticación con JWT Bearer
 var jwtSecret = builder.Configuration["JwtSettings:Secret"]

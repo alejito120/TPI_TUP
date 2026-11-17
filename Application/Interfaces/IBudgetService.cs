@@ -19,5 +19,6 @@ namespace HardwareTech.Application.Interfaces
         Task<BudgetResponse> RejectAsync(int id);
 
         Task DeleteAsync(int id);
+        Task<BudgetUsdResponse> GetBudgetInUsdAsync(int repairId);
     }
 }

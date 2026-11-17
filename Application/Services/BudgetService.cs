@@ -12,15 +12,18 @@ namespace HardwareTech.Application.Services
         private readonly IRepositoryGeneric<Budget> _budgetRepository;
         private readonly IRepositoryGeneric<Repair> _repairRepository;
         private readonly IRepositoryGeneric<RepairStatusHistory> _historyRepository;
+        private readonly IDolarApiService _dolarApiService;
 
         public BudgetService(
             IRepositoryGeneric<Budget> budgetRepository,
             IRepositoryGeneric<Repair> repairRepository,
-            IRepositoryGeneric<RepairStatusHistory> historyRepository)
+            IRepositoryGeneric<RepairStatusHistory> historyRepository,
+            IDolarApiService dolarApiService)
         {
             _budgetRepository = budgetRepository;
             _repairRepository = repairRepository;
             _historyRepository = historyRepository;
+            _dolarApiService = dolarApiService;
         }
 
         public async Task<BudgetResponse> CreateAsync(BudgetRequest request)
@@ -165,6 +168,31 @@ namespace HardwareTech.Application.Services
             }
 
             return MapToResponse(budget);
+        }
+
+        public async Task<BudgetUsdResponse> GetBudgetInUsdAsync(int repairId)
+        {
+            if (!await _repairRepository.ExistsAsync(r => r.Id == repairId))
+                throw new NotFoundException(
+                    $"No se encontró la reparación con ID {repairId}.");
+
+            var budgets = await _budgetRepository.FindAsync(
+                b => b.RepairId == repairId);
+
+            var budget = budgets.FirstOrDefault();
+
+            if (budget == null)
+                throw new NotFoundException(
+                    $"La reparación con ID {repairId} aún no tiene un presupuesto registrado.");
+
+            var dollarRate = await _dolarApiService.GetDollarRateAsync();
+
+            return new BudgetUsdResponse(
+                budget.Id,
+                budget.Amount,
+                dollarRate,
+                Math.Round(budget.Amount / dollarRate, 2)
+            );
         }
 
         private static BudgetResponse MapToResponse(Budget budget)

@@ -48,6 +48,9 @@ namespace HardwareTech.API.Middlewares
                 UnauthorizedException =>
                     StatusCodes.Status401Unauthorized,
 
+                DolarApiException =>
+                    StatusCodes.Status503ServiceUnavailable,
+
                 _ =>
                     StatusCodes.Status500InternalServerError //500 El _ significa, en cualquier otro caso...
             };
