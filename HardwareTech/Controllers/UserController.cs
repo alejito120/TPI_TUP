@@ -2,6 +2,8 @@
 using HardwareTech.Application.DTOs.Responses;
 using HardwareTech.Application.Interfaces;
 using HardwareTech.Domain.Enums;
+using HardwareTech.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HardwareTech.Controllers
@@ -24,6 +26,7 @@ namespace HardwareTech.Controllers
             return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserResponse>>> GetAll()
         {
@@ -31,6 +34,7 @@ namespace HardwareTech.Controllers
             return Ok(users);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id:int}")]
         public async Task<ActionResult<UserResponse>> GetById(int id)
         {
@@ -38,6 +42,7 @@ namespace HardwareTech.Controllers
             return Ok(user);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("rol/{rol}")]
         public async Task<ActionResult<IEnumerable<UserResponse>>> GetByRol(Rol rol)
         {
@@ -45,6 +50,7 @@ namespace HardwareTech.Controllers
             return Ok(users);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPatch("{id:int}/rol")]
         public async Task<ActionResult<UserResponse>> AssignRol(int id, [FromBody] Rol newRol)
         {
@@ -52,10 +58,15 @@ namespace HardwareTech.Controllers
             return Ok(user);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> Delete(int id, [FromQuery] int adminId)
+        public async Task<IActionResult> Delete(int id)
         {
-            await _userService.DeleteAsync(id, adminId);
+            var adminId = User.GetUserId();
+            if (adminId == null)
+                return Unauthorized();
+
+            await _userService.DeleteAsync(id, adminId.Value);
             return NoContent();
         }
     }

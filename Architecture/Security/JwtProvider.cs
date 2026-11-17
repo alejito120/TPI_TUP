@@ -33,15 +33,16 @@ namespace HardwareTech.Infraestructure.Security
             // 3. Cargamos los Claims (la identidad que viaja adentro del token)
             var claims = new[]
             {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.GivenName, user.Name),
-                    new Claim(ClaimTypes.Surname, user.LastName),
-                    // Este claim de Rol es el que después evalúa [Authorize(Roles = "...")] en los controladores:
-                    new Claim(ClaimTypes.Role, user.RolUser.ToString()),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                };
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.GivenName, user.Name),
+                new Claim(ClaimTypes.Surname, user.LastName),
+                // Aseguramos el claim del Rol tanto en formato URI como en formato corto "role"
+                new Claim(ClaimTypes.Role, user.RolUser.ToString()),
+                new Claim("role", user.RolUser.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
 
             // 4. Creamos el objeto del token con emisor, audiencia, expiración y firma
             var token = new JwtSecurityToken(
