@@ -3,4 +3,27 @@
 GET {{HardwareTech_HostAddress}}/weatherforecast/
 Accept: application/json
 
-###
+    @Host = http://localhost:5238
+
+    ### 1. Login con Admin para obtener el Token
+    # @name login
+    POST {{Host}}/api/auth/login
+    Content-Type: application/json
+
+    {
+      "email": "admin@hardwaretech.com",
+      "password": "Admin1234!"
+    }
+
+    ### Guardamos el token de la respuesta automáticamente
+    @token = {{login.response.body.token}}
+
+    ### 2. Probar endpoint protegido /api/auth/me
+    GET {{Host}}/api/auth/me
+    Authorization: Bearer {{token}}
+    Accept: application/json
+
+    ### 3. Probar endpoint protegido de usuarios (Solo Admin)
+    GET {{Host}}/api/user
+    Authorization: Bearer {{token}}
+    Accept: application/json

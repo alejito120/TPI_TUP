@@ -2,12 +2,14 @@
 using HardwareTech.Application.DTOs.Responses;
 using HardwareTech.Application.Interfaces;
 using HardwareTech.Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HardwareTech.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin,Technical")]
     public class RepairController : ControllerBase
     {
         private readonly IRepairService _repairService;
@@ -73,6 +75,7 @@ namespace HardwareTech.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

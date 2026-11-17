@@ -45,6 +45,12 @@ namespace HardwareTech.API.Middlewares
                 BusinessException =>
                     StatusCodes.Status409Conflict, //409
 
+                UnauthorizedException =>
+                    StatusCodes.Status401Unauthorized,
+
+                DolarApiException =>
+                    StatusCodes.Status503ServiceUnavailable,
+
                 _ =>
                     StatusCodes.Status500InternalServerError //500 El _ significa, en cualquier otro caso...
             };

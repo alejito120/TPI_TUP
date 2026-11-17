@@ -1,12 +1,14 @@
 ﻿using HardwareTech.Application.DTOs.Requests;
 using HardwareTech.Application.DTOs.Responses;
 using HardwareTech.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HardwareTech.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class EquipmentHardwareController : ControllerBase
     {
         private readonly IEquipmentHardwareService _equipmentService;
@@ -23,6 +25,7 @@ namespace HardwareTech.Controllers
             return CreatedAtAction(nameof(GetById), new { id = equipment.Id }, equipment);
         }
 
+        [Authorize(Roles = "Admin,Technical")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EquipmentHardwareResponse>>> GetAll()
         {
@@ -37,6 +40,7 @@ namespace HardwareTech.Controllers
             return Ok(equipment);
         }
 
+        [Authorize(Roles = "Admin,Technical")]
         [HttpGet("client/{clientId:int}")]
         public async Task<ActionResult<IEnumerable<EquipmentHardwareResponse>>> GetByClientId(int clientId)
         {
@@ -51,6 +55,7 @@ namespace HardwareTech.Controllers
             return Ok(equipment);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
