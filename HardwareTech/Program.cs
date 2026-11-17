@@ -12,9 +12,12 @@ using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Base de datos y Repositorios / Servicios
-builder.Services.AddDbContext<HardwareTech.Infraestructure.Data.ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// 1. Base de datos con reintentos para la nube (Paso 2.3 de la guía de deploy)
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        sqlOptions => sqlOptions.EnableRetryOnFailure()
+    ));
 
 builder.Services.AddRepositories();
 builder.Services.AddApplicationServices();
@@ -76,21 +79,27 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// 🌟 Semillero automático: Si no hay Administrador en la BD, lo crea o migra contraseñas viejas
+// 4. Migración automática y Data Seeding en la nube (Paso 3.2 de la guía)
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
+}
 await DbInitializer.SeedAsync(app.Services);
 
-// 4. Middleware global de excepciones
+// 5. Middleware global de excepciones
 app.UseMiddleware<ExceptionMiddleware>();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// 6. Swagger habilitado en todos los entornos (Paso 2.1 de la guía para Azure)
+app.UseSwagger();
+app.UseSwaggerUI();
+
+// Redirección de la raíz a /swagger
+app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
 
 app.UseHttpsRedirection();
 
-// 5. Autenticación y Autorización
+// 7. Autenticación y Autorización
 app.UseAuthentication();
 app.UseAuthorization();
 
