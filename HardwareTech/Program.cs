@@ -79,13 +79,22 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// 4. Migración automática y Data Seeding en la nube (Paso 3.2 de la guía)
-using (var scope = app.Services.CreateScope())
+// 4. Migración automática y Data Seeding en la nube protegido con try/catch
+// para evitar que un fallo inicial de BD cause el error HTTP 500.30
+try
 {
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    db.Database.Migrate();
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        db.Database.Migrate();
+    }
+    await DbInitializer.SeedAsync(app.Services);
 }
-await DbInitializer.SeedAsync(app.Services);
+catch (Exception ex)
+{
+    var logger = app.Services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "Aviso: No se pudo conectar a la base de datos o ejecutar migraciones al iniciar la app.");
+}
 
 // 5. Middleware global de excepciones
 app.UseMiddleware<ExceptionMiddleware>();
