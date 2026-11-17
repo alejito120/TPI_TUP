@@ -1,10 +1,12 @@
 using System.Text;
 using HardwareTech.API.Middlewares;
 using HardwareTech.Application.Extensions;
+using HardwareTech.Infraestructure.Data;
 using HardwareTech.Infraestructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +37,8 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
         ValidAudience = builder.Configuration["JwtSettings:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
-        ClockSkew = TimeSpan.Zero
+        ClockSkew = TimeSpan.Zero,
+        RoleClaimType = System.Security.Claims.ClaimTypes.Role
     };
 });
 
@@ -43,11 +46,37 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+// 3. Configuración de Swagger con botón "Authorize" compatible con Swashbuckle v10 y OpenAPI 2.0
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "HardwareTech API",
+        Version = "v1",
+        Description = "API de gestión con autenticación JWT."
+    });
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        Description = "Ingresá únicamente el token JWT obtenido del login."
+    });
+
+    options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+    {
+        [new OpenApiSecuritySchemeReference("Bearer", document)] = []
+    });
+});
 
 var app = builder.Build();
 
-// 3. Middleware global de excepciones
+// 🌟 Semillero automático: Si no hay Administrador en la BD, lo crea o migra contraseñas viejas
+await DbInitializer.SeedAsync(app.Services);
+
+// 4. Middleware global de excepciones
 app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
@@ -58,7 +87,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// 4. Autenticación y Autorización
+// 5. Autenticación y Autorización
 app.UseAuthentication();
 app.UseAuthorization();
 
